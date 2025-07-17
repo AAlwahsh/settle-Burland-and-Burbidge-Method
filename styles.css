@@ -1,0 +1,237 @@
+body { 
+    font-family: 'Cairo', sans-serif; 
+    background-color: #f3f4f6; 
+}
+.container { 
+    max-width: 900px; 
+}
+.card { 
+    background-color: white; 
+    padding: 2rem; 
+    border-radius: 0.75rem; 
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
+}
+.section-title { 
+    font-weight: 700; 
+    font-size: 1.25rem; 
+    margin-bottom: 1.5rem; 
+    color: #111827; 
+    border-right: 4px solid #4f46e5; 
+    padding-right: 1rem; 
+}
+.input-group label { 
+    display: block; 
+    margin-bottom: 0.5rem; 
+    font-weight: 600; 
+}
+.input-group input, .input-group select { 
+    width: 100%; 
+    padding: 0.625rem 1rem; 
+    border: 1px solid #d1d5db; 
+    border-radius: 0.5rem; 
+}
+.radio-group label { 
+    margin-right: 0.5rem; 
+    font-weight: normal; 
+}
+.btn { 
+    padding: 0.75rem 1.75rem; 
+    border-radius: 0.5rem; 
+    font-weight: 600; 
+    cursor: pointer; 
+    border: none; 
+}
+.btn-primary { 
+    background-color: #4f46e5; 
+    color: white; 
+}
+.btn-secondary { 
+    background-color: #6b7280; 
+    color: white; 
+}
+.hidden { 
+    display: none; 
+}
+.results-section h3 { 
+    font-size: 1.25rem; 
+    font-weight: 600; 
+    margin-bottom: 1rem; 
+    padding-bottom: 0.75rem; 
+    border-bottom: 2px solid #4f46e5; 
+}
+.final-result { 
+    font-size: 1.75rem; 
+    font-weight: 700; 
+    color: #4f46e5; 
+}
+.error-message { 
+    color: #ef4444; 
+    background-color: #fee2e2; 
+    border: 1px solid #fca5a5; 
+    padding: 1rem; 
+    border-radius: 0.5rem; 
+}
+/* === كود أيقونات المساعدة (Tooltips) === */
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+}
+
+.tooltip-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: #9ca3af; /* لون رمادي */
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 13px;
+    line-height: 18px;
+    margin-right: 5px; /* مسافة بين النص والأيقونة */
+    font-weight: bold;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 280px;
+    background-color: #1f2937; /* لون داكن */
+    color: #fff;
+    text-align: right;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%; /* يظهر فوق العنصر */
+    left: 50%;
+    margin-left: -140px; /* لنصف العرض لتوسيط النافذة */
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.875rem; /* حجم خط أصغر */
+    line-height: 1.5;
+}
+
+/* إظهار النص عند مرور المؤشر فوق الحاوية */
+.tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+/* === كود تنسيق الطباعة === */
+/* === كود تنسيق الطباعة النهائي والمحصن === */
+/* === كود تنسيق الطباعة النهائي والمحترف === */
+/* === كود تنسيق الطباعة النهائي والمصحح === */
+/* === كود تنسيق الطباعة النهائي والمصحح === */
+@media print {
+    body {
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    /* إخفاء حاوية التطبيق الرئيسية عند الطباعة بشكل قاطع */
+    body > .container {
+        display: none !important;
+    }
+
+    /* ### بداية التعديل الجوهري ### */
+    /* إظهار حاوية التقرير بشكل صريح وإلغاء أي أوامر إخفاء */
+    #print-report-container {
+        display: block !important;
+        visibility: visible !important;
+    }
+    /* ### نهاية التعديل الجوهري ### */
+
+
+    /* التأكد من أن جميع محتويات التقرير ظاهرة */
+    #print-report-container * {
+        visibility: visible !important;
+    }
+
+    /* تنسيق حاوية التقرير لتملأ الصفحة المطبوعة */
+    #print-report-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 25px;
+        font-size: 12pt;
+        color: black;
+    }
+    
+    /* بقية تنسيقات التقرير (الجداول والعناوين) تبقى كما هي */
+    .report-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid black;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    .report-logo {
+        font-size: 16pt;
+        font-weight: bold;
+    }
+    .report-doc-title {
+        font-size: 14pt;
+        font-style: italic;
+    }
+    .report-title {
+        font-size: 18pt;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .report-section-title {
+        font-size: 14pt;
+        font-weight: bold;
+        border-bottom: 1px solid #333;
+        padding-bottom: 5px;
+        margin-top: 25px;
+        margin-bottom: 15px;
+		page-break-after: avoid !important;
+    }
+    .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        margin-bottom: 25px;
+		page-break-inside: avoid !important; /* <--- هذا هو السطر الذي يجب إضافته */
+
+    }
+    .report-table th, .report-table td {
+        border: 1px solid #666;
+        padding: 8px;
+        text-align: right;
+    }
+    .report-table th {
+        background-color: #e9ecef;
+        font-weight: bold;
+    }
+    .report-final-summary {
+        margin-top: 30px;
+        padding: 15px;
+        border: 2px solid #4f46e5;
+        border-radius: 8px;
+        text-align: center;
+        background-color: #f0f1ff;
+    }
+    .report-final-title {
+        font-size: 14pt;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .report-final-value {
+        font-size: 20pt;
+        font-weight: bold;
+        color: #4f46e5;
+    }
+    .report-footer {
+        position: fixed;
+        bottom: 10px;
+        left: 25px;
+        right: 25px;
+        text-align: center;
+        font-size: 9pt;
+        color: #666;
+        border-top: 1px solid #ccc;
+        padding-top: 5px;
+    }
+}

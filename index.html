@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة هبوط الأساسات (طريقة Burland & Burbidge)</title>
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4 sm:p-8">
+        <div class="text-center mb-6"><h2 class="text-3xl font-bold text-gray-800">حاسبة هبوط الأساسات (طريقة Burland & Burbidge)</h2></div>
+        <div class="card">
+            <form id="calculatorForm">
+                <div class="mb-8"><h3 class="section-title">1. بيانات الأساس</h3><div class="grid grid-cols-1 md:grid-cols-4 gap-6"><div class="input-group">
+    <label for="foundation_type">نوع الأساس</label>
+    <select id="foundation_type">
+        <option value="square">مربع</option>
+        <option value="rectangular">مستطيل</option>
+        <option value="circular">دائري</option>
+        <option value="strip">شريطي</option>
+    </select>
+</div><div class="input-group"><label for="B" id="label_B">عرض/ضلع B (متر)</label><input type="number" id="B" value="2" step="any" required></div><div class="input-group hidden" id="group_L"><label for="L">الطول L (متر)</label><input type="number" id="L" value="2" step="any"></div><div class="input-group"><label for="Df">عمق التأسيس Df (متر)</label><input type="number" id="Df" value="1.5" step="any" required></div></div></div>
+                <div class="mb-8"><h3 class="section-title">2. بيانات التحميل وظروف الموقع</h3><div class="grid grid-cols-1 md:grid-cols-4 gap-6"><div class="input-group"><label for="q_n">الضغط الصافي المطبق q_n (kPa)</label><input type="number" id="q_n" value="150" step="any" required></div><div class="input-group"><label for="Dw_settlement">عمق المياه Dw (متر)</label><input type="number" id="Dw_settlement" value="-1" step="any"></div><div class="input-group"><label for="gamma_moist">الوزن الحجمي الرطب γ_m</label><input type="number" id="gamma_moist" value="18" step="any"></div><div class="input-group"><label for="gamma_sat">الوزن الحجمي المشبع γ_sat</label><input type="number" id="gamma_sat" value="19.5" step="any"></div></div></div>
+                
+                <div class="mb-8"><h3 class="section-title">3. طريقة الحساب: Burland & Burbidge</h3></div>
+                
+                <div id="settlement_params_container" class="mt-6">
+                    <div class="p-4 border rounded-lg bg-white mt-4">
+                        <p class="text-sm text-gray-500 mb-4">تطبيق محسن لطريقة بورلاند وبيربدج.</p>
+                        <div class="input-group mb-4">
+    <label class="tooltip-container">تاريخ الإجهاد للرمل
+        <span class="tooltip-icon">؟</span>
+        <span class="tooltip-text">
+            <b>NC (مترسب طبيعياً):</b> للرمل الذي لم يتعرض لأحمال عالية في الماضي.<br>
+            <b>OC (مدكوك):</b> للرمل الذي تم دكه أو إزالة حمل كبير من فوقه (Pre-loaded).
+        </span>
+    </label><div class="flex items-center space-x-4 space-x-reverse radio-group"><div><input type="radio" id="sand_nc" name="sand_history" value="NC" checked><label for="sand_nc">مترسب طبيعياً (NC)</label></div><div><input type="radio" id="sand_oc" name="sand_history" value="OC"><label for="sand_oc">مدكوك/مسبق الانضمام (OC)</label></div></div></div>
+                        <div class="input-group mb-4">
+    <label class="tooltip-container">نوع الحمل (للهبوط طويل الأمد)
+        <span class="tooltip-icon">؟</span>
+        <span class="tooltip-text">
+            <b>حمل ساكن:</b> للمباني السكنية والمكاتب (R₃=0.3, Rₜ=0.2).<br>
+            <b>حمل متغير:</b> للمنشآت التي تتعرض لأحمال متغيرة مثل الصوامع والجسور والمداخن (R₃=0.7, Rₜ=0.8).
+        </span>
+    </label><div class="flex items-center space-x-4 space-x-reverse radio-group"><div><input type="radio" id="load_static" name="load_type" value="static" checked><label for="load_static">حمل ساكن (Static)</label></div><div><input type="radio" id="load_fluctuating" name="load_type" value="fluctuating"><label for="load_fluctuating">حمل متغير (Fluctuating)</label></div></div></div>
+                        <div class="input-group mb-4">
+    <label class="tooltip-container">تصنيف الرمل (لتصحيح N)
+        <span class="tooltip-icon">؟</span>
+        <span class="tooltip-text">
+            <b>رمل عادي:</b> يتم تطبيق التصحيح التلقائي للرمل المغمور فقط.<br>
+            <b>رمل حصوي:</b> يتم ضرب قيمة N في 1.25 لتعكس الصلابة الأعلى للحصى، وفقًا لتوصيات المرجع.
+        </span>
+    </label><div class="flex items-center space-x-4 space-x-reverse radio-group"><div><input type="radio" id="sand_default" name="spt_soil_type" value="default" checked><label for="sand_default">رمل عادي (Sand)</label></div><div><input type="radio" id="sand_gravelly" name="spt_soil_type" value="gravelly"><label for="sand_gravelly">رمل حصوي (Gravelly)</label></div></div></div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="input-group"><label for="spt_n_measured">متوسط N الحقلي</label><input type="number" id="spt_n_measured" value="20" step="any" required></div>
+                            <div class="input-group"><label for="spt_depth">متوسط عمق الاختبار (م)</label><input type="number" id="spt_depth" value="3.0" step="any" required></div>
+                            <div class="input-group hidden" id="group_qg_prime"><label for="q_g_prime">الضغط الإجمالي الفعال q'_g (kPa)</label><input type="number" id="q_g_prime" value="180" step="any"></div>
+                            <div class="input-group"><label for="layer_thickness_hs">سماكة طبقة الرمل H_s (م)</label><input type="number" id="layer_thickness_hs" value="6" step="any"></div>
+                            <div class="input-group"><label for="time_in_years">عمر المنشأ (بالسنوات)</label><input type="number" id="time_in_years" value="1" step="any"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center items-center pt-6 border-t mt-8">
+    <button type="submit" class="btn btn-primary text-lg">احسب الهبوط</button>
+    <button type="button" id="printReportBtn" class="btn btn-primary hidden mr-4">طباعة تقرير</button>
+    <button type="button" id="resetBtn" class="btn btn-secondary mr-4">مسح</button>
+</div>
+<!-- Disclaimer Content -->
+				<div id="disclaimerContent" class="btn btn-secondary mr-4">
+                    <h4>إخلاء المسؤولية</h4>
+                    <div class="border-r-4 border-yellow-500 bg-yellow-50 p-4 rounded-md text-yellow-900">
+                        <p>تم تصميم هذه الحاسبة وتقديمها كأداة للأغراض التعليمية والتقديرية الأولية فقط. لا يجب اعتبار نتائجها بديلاً عن التحليل الهندسي الاحترافي والاستشارة من قبل مهندس جيوتقني مؤهل.</p>
+                        <p>على الرغم من أنه تم بذل كل جهد ممكن لضمان دقة الحسابات بناءً على المراجع والمعادلات الهندسية القياسية، فإن مطور هذه الأداة لا يقدم أي ضمانات، سواء كانت صريحة أو ضمنية، بخصوص صحة أو اكتمال أو ملاءمة النتائج لأي غرض محدد.</p>
+                        <p>يجب على المستخدم التحقق من جميع النتائج بشكل مستقل قبل استخدامها في أي تصميمات هندسية فعلية أو لأغراض التشييد والبناء. يتحمل المستخدم وحده كامل المسؤولية عن أي قرارات أو إجراءات يتم اتخاذها بناءً على المعلومات الصادرة من هذه الأداة. المطور غير مسؤول عن أي أضرار مباشرة أو غير مباشرة قد تنشأ عن استخدام هذه الحاسبة.</p>
+                    </div>
+                </div>
+            </form>
+			<footer class="text-center text-gray-500 text-xs mt-8 pt-4 border-t">
+                <p>All rights reserved © Ahmed Alwahsh 2025</p>
+                <p>Feedback: <a href="mailto:aalwahsh87@gmail.com" class="text-purple-600 hover:underline">aalwahsh87@gmail.com</a></p>
+            </footer>
+        </div>
+<div id="resultsArea" class="mt-8"></div>
+    </div> <div id="print-report-container" class="hidden"></div>
+
+    <script src="script.js" type="module"></script>
+</body>
+</html>
